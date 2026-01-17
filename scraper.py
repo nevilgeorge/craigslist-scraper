@@ -14,6 +14,7 @@ import requests
 
 from craigslist import scrape_search_results
 from evaluator import GeminiEvaluator
+from notifier import EmailNotifier
 
 
 def load_config(config_path):
@@ -143,6 +144,11 @@ def main():
         type=str,
         help="Only scrape a specific product by name (case-insensitive partial match)"
     )
+    parser.add_argument(
+        "--notify",
+        action="store_true",
+        help="Send email notifications for matches (requires RESEND_API_KEY and NOTIFY_EMAIL env vars)"
+    )
     args = parser.parse_args()
 
     # Load configuration
@@ -169,6 +175,12 @@ def main():
         print("Initializing Gemini API...")
         evaluator = GeminiEvaluator()
 
+    # Initialize email notifier
+    notifier = None
+    if args.notify:
+        print("Initializing email notifications...")
+        notifier = EmailNotifier()
+
     # Create session for connection reuse
     session = requests.Session()
 
@@ -180,6 +192,24 @@ def main():
 
     # Print results
     print_results(results)
+
+    # Send email notification with all matches
+    if notifier:
+        all_matches = []
+        for result in results:
+            product_name = result["product_name"]
+            for listing in result["listings"]:
+                if listing.get("evaluation", {}).get("is_match"):
+                    all_matches.append({"product_name": product_name, "listing": listing})
+
+        if all_matches:
+            print(f"\nSending email notification for {len(all_matches)} match(es)...")
+            if notifier.notify_matches(all_matches):
+                print("📧 Email notification sent successfully")
+            else:
+                print("⚠️ Email notification failed")
+        else:
+            print("\nNo matches found, skipping email notification")
 
 
 if __name__ == "__main__":

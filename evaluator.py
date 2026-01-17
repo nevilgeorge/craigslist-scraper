@@ -25,9 +25,11 @@ Respond with ONLY a JSON object in this exact format:
 {{"is_match": true/false, "confidence": "high/medium/low", "reason": "brief explanation"}}
 
 Rules:
-- is_match should be true if the listing appears to be for the product being searched
-- When in doubt, lean toward marking as a match - it's better to surface a potential match than miss one
-- Focus on whether the core product matches, not minor details
+- is_match should be true ONLY if the listing is for one of the models specified in the matching criteria
+- Be STRICT: if the listing is for a different model, variant, or product line not explicitly listed in the criteria, mark as NOT a match
+- Accessories, cases, bags, or parts are NOT matches unless the actual camera/product is included
+- When in doubt, mark as NOT a match - only include listings that clearly match the specified models
+- The listing must explicitly mention or clearly be for one of the allowed models to be considered a match
 """
 
 
