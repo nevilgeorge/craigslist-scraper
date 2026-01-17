@@ -1,0 +1,14 @@
+{
+  "products": [
+    {
+      "name": "Sony RX100 camera",
+      "search_term": "sony rx100",
+      "criteria": "Sony RX100 camera (any version: RX100, RX100 II, RX100 III, RX100 IV, RX100 V, RX100 VI, RX100 VII, or similar). Other Sony cameras (like A7, A6000, etc.) are NOT matches. Camera accessories, cases, or bags for RX100 are NOT matches unless the camera is included."
+    },
+    {
+      "name": "Fujifilm X100",
+      "search_term": "fujifilm x100",
+      "criteria": "Fujifilm X100 camera (any version: X100, X100S, X100T, X100F, X100V, X100VI, or similar). Other Fujifilm cameras are NOT matches. Camera accessories, cases, or bags for X100 are NOT matches unless the camera is included."
+    }
+  ]
+}
